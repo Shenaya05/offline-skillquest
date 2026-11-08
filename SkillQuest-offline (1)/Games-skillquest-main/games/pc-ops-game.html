@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>PC Operations – Interactive</title>
+    <link rel="stylesheet" href="../css/theme-bg.css">
+    <link rel="stylesheet" href="css/pc-ops-game.css">
+    <link rel="stylesheet" href="../css/icons.css">
+</head>
+<body>
+
+    <div id="app">
+        <div id="dragGhost"></div>
+
+        <!-- ─── GLOSSARY OVERLAY ─── -->
+        <div class="glossary-overlay" id="glossaryOverlay">
+            <div class="glossary-modal">
+                <h2>📖 Glossary</h2>
+                <div id="glossaryList"></div>
+                <button class="close-btn" id="glossaryCloseBtn">Close</button>
+            </div>
+        </div>
+
+        <!-- ─── MAIN MENU ─── -->
+        <div id="screen-main" class="screen active">
+            <div class="title-main">💻 PC OPS – Interactive</div>
+            <div class="title-sub">— 5 challenges per level · shuffled answers —</div>
+            <div class="menu-grid">
+                <div class="menu-item" data-game="ohs" id="menu-ohs" title="Occupational Health and Safety &amp; Ergonomics">
+                    <div class="icon">🛡️</div>
+                    <div class="info">
+                        <div class="name">OHS &amp; Ergonomics <span class="badge">Lv.1</span></div>
+                        <div class="desc">5 tasks · basic to difficult</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="os" id="menu-os" title="Operating System &amp; File Management">
+                    <div class="icon">📁</div>
+                    <div class="info">
+                        <div class="name">OS &amp; File Management <span class="badge">Lv.1</span></div>
+                        <div class="desc">5 tasks · basic to difficult</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="typing" id="menu-typing" title="Typing &amp; Keyboard Shortcuts">
+                    <div class="icon">⌨️</div>
+                    <div class="info">
+                        <div class="name">Typing &amp; Shortcuts <span class="badge">Lv.1</span></div>
+                        <div class="desc">5 tasks · basic to difficult</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="spreadsheet" id="menu-spreadsheet" title="Spreadsheet Operations">
+                    <div class="icon">📊</div>
+                    <div class="info">
+                        <div class="name">Spreadsheet Ops <span class="badge">Lv.1</span></div>
+                        <div class="desc">5 tasks · basic to difficult</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="maintenance" id="menu-maintenance" title="System Maintenance &amp; Troubleshooting">
+                    <div class="icon">🔧</div>
+                    <div class="info">
+                        <div class="name">System Maintenance <span class="badge">Lv.1</span></div>
+                        <div class="desc">5 tasks · basic to difficult</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-row">
+                    <span class="label">🏆 Overall Progress</span>
+                    <span class="value" id="overallProgress">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="fill" id="overallFill" style="width:0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── OHS ─── -->
+        <div id="screen-ohs" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🛡️ OHS &amp; Ergonomics</span>
+            </div>
+            <div id="ohs-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="ohsLevelGrid"></div>
+                <button class="btn btn-primary" id="ohsStartBtn">START LEVEL</button>
+            </div>
+            <div id="ohs-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="ohsInstrObj">🎯 5 challenges</div>
+                    <div class="detail" id="ohsInstrDetail">Answer each challenge. Drag, sequence, or choose.</div>
+                    <div class="rule">Complete all 5 to finish the level</div>
+                    <div class="rule">Answers are shuffled each time</div>
+                </div>
+                <button class="btn btn-primary" id="ohsPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="ohs-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="ohsGameLevel">Level 1</span>
+                    <span class="stars-display" id="ohsGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="ohsGameTimer">00:00</span>
+                    <button class="glossary-btn" data-glossary="ohs">📖</button>
+                </div>
+                <div class="game-area" id="ohsGameArea"></div>
+                <div class="game-actions">
+                    <button class="btn btn-secondary" id="ohsResetBtn">↻ Reset</button>
+                    <button class="btn btn-primary" id="ohsNextBtn" disabled>➜ NEXT</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="ohsFeedbackOverlay">
+                <div class="big-icon" id="ohsFbIcon">🎉</div>
+                <div class="fb-title gold" id="ohsFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="ohsFbSub">Great work!</div>
+                <div class="fb-score" id="ohsFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="ohsFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="ohsFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── OS ─── -->
+        <div id="screen-os" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">📁 OS &amp; File Management</span>
+            </div>
+            <div id="os-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="osLevelGrid"></div>
+                <button class="btn btn-primary" id="osStartBtn">START LEVEL</button>
+            </div>
+            <div id="os-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="osInstrObj">📂 5 challenges</div>
+                    <div class="detail" id="osInstrDetail">Drag, sequence, or choose.</div>
+                    <div class="rule">Complete all 5</div>
+                </div>
+                <button class="btn btn-primary" id="osPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="os-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="osGameLevel">Level 1</span>
+                    <span class="stars-display" id="osGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="osGameTimer">00:00</span>
+                    <button class="glossary-btn" data-glossary="os">📖</button>
+                </div>
+                <div class="game-area" id="osGameArea"></div>
+                <div class="game-actions">
+                    <button class="btn btn-secondary" id="osResetBtn">↻ Reset</button>
+                    <button class="btn btn-primary" id="osNextBtn" disabled>➜ NEXT</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="osFeedbackOverlay">
+                <div class="big-icon" id="osFbIcon">🎉</div>
+                <div class="fb-title gold" id="osFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="osFbSub">Great work!</div>
+                <div class="fb-score" id="osFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="osFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="osFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── Typing ─── -->
+        <div id="screen-typing" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">⌨️ Typing &amp; Shortcuts</span>
+            </div>
+            <div id="typing-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="typingLevelGrid"></div>
+                <button class="btn btn-primary" id="typingStartBtn">START LEVEL</button>
+            </div>
+            <div id="typing-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="typingInstrObj">⌨️ 5 challenges</div>
+                    <div class="detail" id="typingInstrDetail">Match shortcuts, order steps.</div>
+                    <div class="rule">Complete all 5</div>
+                </div>
+                <button class="btn btn-primary" id="typingPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="typing-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="typingGameLevel">Level 1</span>
+                    <span class="stars-display" id="typingGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="typingGameTimer">00:00</span>
+                    <button class="glossary-btn" data-glossary="typing">📖</button>
+                </div>
+                <div class="game-area" id="typingGameArea"></div>
+                <div class="game-actions">
+                    <button class="btn btn-secondary" id="typingResetBtn">↻ Reset</button>
+                    <button class="btn btn-primary" id="typingNextBtn" disabled>➜ NEXT</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="typingFeedbackOverlay">
+                <div class="big-icon" id="typingFbIcon">🎉</div>
+                <div class="fb-title gold" id="typingFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="typingFbSub">Great work!</div>
+                <div class="fb-score" id="typingFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="typingFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="typingFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── Spreadsheet ─── -->
+        <div id="screen-spreadsheet" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">📊 Spreadsheet Ops</span>
+            </div>
+            <div id="spreadsheet-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="spreadsheetLevelGrid"></div>
+                <button class="btn btn-primary" id="spreadsheetStartBtn">START LEVEL</button>
+            </div>
+            <div id="spreadsheet-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="spreadsheetInstrObj">📊 5 challenges</div>
+                    <div class="detail" id="spreadsheetInstrDetail">Build formulas, order steps.</div>
+                    <div class="rule">Complete all 5</div>
+                </div>
+                <button class="btn btn-primary" id="spreadsheetPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="spreadsheet-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="spreadsheetGameLevel">Level 1</span>
+                    <span class="stars-display" id="spreadsheetGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="spreadsheetGameTimer">00:00</span>
+                    <button class="glossary-btn" data-glossary="spreadsheet">📖</button>
+                </div>
+                <div class="game-area" id="spreadsheetGameArea"></div>
+                <div class="game-actions">
+                    <button class="btn btn-secondary" id="spreadsheetResetBtn">↻ Reset</button>
+                    <button class="btn btn-primary" id="spreadsheetNextBtn" disabled>➜ NEXT</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="spreadsheetFeedbackOverlay">
+                <div class="big-icon" id="spreadsheetFbIcon">🎉</div>
+                <div class="fb-title gold" id="spreadsheetFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="spreadsheetFbSub">Great work!</div>
+                <div class="fb-score" id="spreadsheetFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="spreadsheetFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="spreadsheetFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── Maintenance ─── -->
+        <div id="screen-maintenance" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🔧 System Maintenance</span>
+            </div>
+            <div id="maintenance-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="maintenanceLevelGrid"></div>
+                <button class="btn btn-primary" id="maintenanceStartBtn">START LEVEL</button>
+            </div>
+            <div id="maintenance-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="maintenanceInstrObj">🔧 5 challenges</div>
+                    <div class="detail" id="maintenanceInstrDetail">Order troubleshooting steps.</div>
+                    <div class="rule">Complete all 5</div>
+                </div>
+                <button class="btn btn-primary" id="maintenancePlayBtn">▶ PLAY</button>
+            </div>
+            <div id="maintenance-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="maintenanceGameLevel">Level 1</span>
+                    <span class="stars-display" id="maintenanceGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="maintenanceGameTimer">00:00</span>
+                    <button class="glossary-btn" data-glossary="maintenance">📖</button>
+                </div>
+                <div class="game-area" id="maintenanceGameArea"></div>
+                <div class="game-actions">
+                    <button class="btn btn-secondary" id="maintenanceResetBtn">↻ Reset</button>
+                    <button class="btn btn-primary" id="maintenanceNextBtn" disabled>➜ NEXT</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="maintenanceFeedbackOverlay">
+                <div class="big-icon" id="maintenanceFbIcon">🎉</div>
+                <div class="fb-title gold" id="maintenanceFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="maintenanceFbSub">Great work!</div>
+                <div class="fb-score" id="maintenanceFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="maintenanceFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="maintenanceFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/icons.js"></script>
+    <script src="js/pc-ops-game.js"></script>
+</body>
+</html>

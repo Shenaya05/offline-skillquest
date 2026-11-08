@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020">
+    <link rel="manifest" href="manifest.json">
+    <title>SkillQuest – TESDA Gamified Assessment</title>
+    <link rel="stylesheet" href="css/theme-bg.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/icons.css">
+</head>
+<body>
+
+    <!-- ══════ SPLASH ══════ -->
+    <div id="splash" class="screen active">
+        <div class="splash-content">
+            <img class="splash-crest" src="assets/img/cmdc-logo.png" alt="CMDC logo">
+            <div class="splash-logo">SKILLQUEST</div>
+            <div class="splash-sub">TESDA · Gamified Assessment Platform</div>
+            <p class="splash-tagline">
+                Prepare for your <strong>National Certification</strong> through interactive,
+                scenario-based challenges — earn XP, level up, and prove your competency
+                before the real thing.
+            </p>
+            <div class="splash-badges">
+                <span class="track-pill eim">⚡ EIM NC II</span>
+                <span class="track-pill ccs">🎧 CCS NC II</span>
+                <span class="track-pill pcops">💻 PC OPS NC II</span>
+            </div>
+
+            <div class="button-row">
+                <button class="btn btn-success" id="continue-btn" style="display:none;" onclick="resumeSession()">↻ Continue</button>
+                <button class="btn btn-primary" onclick="showScreen('register')">▶ Create Account</button>
+                <button class="btn btn-secondary" onclick="showScreen('login')">🔑 Log In</button>
+                <button class="btn btn-primary" onclick="openOffline()">📴 Play Offline</button>
+                <button class="btn btn-secondary" onclick="loadDemo()">⚡ Quick Demo</button>
+            </div>
+
+            <p id="api-status" style="margin-top:14px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;"></p>
+            <p style="margin-top:20px;font-size:12px;color:var(--muted);">
+                City College of Calamba · Dept. of Computing and Informatics
+            </p>
+        </div>
+    </div>
+
+    <!-- ══════ REGISTER ══════ -->
+    <div id="register" class="screen">
+        <div class="reg-box" style="margin:auto;">
+            <h2>Create Your Account</h2>
+            <p>Set up your account to begin the gamified assessment.</p>
+
+            <div class="form-group">
+                <label>I am a...</label>
+                <div class="track-select-grid" style="grid-template-columns:1fr 1fr;">
+                    <div class="track-card ccs selected" data-role="trainee" onclick="selectRole('trainee',this)">
+                        <div class="t-icon">🎓</div>
+                        <div class="t-name">TRAINEE</div>
+                        <div class="t-full">Take assessments, earn XP</div>
+                    </div>
+                    <div class="track-card eim" data-role="trainer" onclick="selectRole('trainer',this)">
+                        <div class="t-icon">🧑‍🏫</div>
+                        <div class="t-name">TRAINER</div>
+                        <div class="t-full">Monitor trainee results</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="reg-username" placeholder="e.g. juandelacruz" autocomplete="username" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-field">
+                    <input type="password" id="reg-password" placeholder="At least 6 characters" autocomplete="new-password" />
+                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('reg-password', this)" aria-label="Show password" aria-pressed="false">Show</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="reg-name" placeholder="e.g. Juan dela Cruz" />
+            </div>
+            <div class="form-group">
+                <label>Student / Employee ID (optional)</label>
+                <input type="text" id="reg-id" placeholder="e.g. 2024-00123" />
+            </div>
+            <div class="form-group" id="reg-track-group">
+                <label>Select Your NC Track</label>
+                <div class="track-select-grid">
+                    <div class="track-card eim" data-track="eim" onclick="selectTrack('eim',this)">
+                        <div class="t-icon">⚡</div>
+                        <div class="t-name">EIM NC II</div>
+                        <div class="t-full">Electrical Installation & Maintenance</div>
+                    </div>
+                    <div class="track-card ccs" data-track="ccs" onclick="selectTrack('ccs',this)">
+                        <div class="t-icon">🎧</div>
+                        <div class="t-name">CCS NC II</div>
+                        <div class="t-full">Contact Center Services</div>
+                    </div>
+                    <div class="track-card pcops" data-track="pcops" onclick="selectTrack('pcops',this)">
+                        <div class="t-icon">💻</div>
+                        <div class="t-name">PC OPS NC II</div>
+                        <div class="t-full">PC Operations & Maintenance</div>
+                    </div>
+                </div>
+            </div>
+            <p id="reg-error" style="color:var(--accent4);font-size:13px;margin-bottom:10px;display:none;"></p>
+            <div style="display:flex;gap:10px;margin-top:8px;">
+                <button class="btn btn-secondary" onclick="showScreen('splash')" style="flex:1">← Back</button>
+                <button class="btn btn-primary" id="reg-submit-btn" onclick="registerAccount()" style="flex:2">Create Account →</button>
+            </div>
+            <p style="margin-top:16px;font-size:13px;color:var(--muted);text-align:center;">
+                Already have an account? <a href="#" onclick="showScreen('login');return false;" style="color:var(--accent1);">Log in</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ══════ OFFLINE PROFILE ══════ -->
+    <div id="offline" class="screen">
+        <div class="reg-box" style="margin:auto;">
+            <h2>Play Offline</h2>
+            <p>No account or internet needed. Progress is saved on this device only.</p>
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="off-name" placeholder="e.g. Juan dela Cruz" />
+            </div>
+            <div class="form-group">
+                <label>Select Your NC Track</label>
+                <div class="track-select-grid">
+                    <div class="track-card eim" data-otrack="eim" onclick="selectOfflineTrack('eim',this)"><div class="t-icon">⚡</div><div class="t-name">EIM NC II</div></div>
+                    <div class="track-card ccs" data-otrack="ccs" onclick="selectOfflineTrack('ccs',this)"><div class="t-icon">🎧</div><div class="t-name">CCS NC II</div></div>
+                    <div class="track-card pcops" data-otrack="pcops" onclick="selectOfflineTrack('pcops',this)"><div class="t-icon">💻</div><div class="t-name">PC OPS NC II</div></div>
+                </div>
+            </div>
+            <p id="off-error" style="color:var(--accent4);font-size:13px;margin-bottom:10px;display:none;"></p>
+            <div style="display:flex;gap:10px;margin-top:8px;">
+                <button class="btn btn-secondary" onclick="showScreen('splash')" style="flex:1">← Back</button>
+                <button class="btn btn-primary" onclick="createOfflineProfile()" style="flex:2">Start →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════ LOGIN ══════ -->
+    <div id="login" class="screen">
+        <div class="reg-box" style="margin:auto;">
+            <h2>Log In</h2>
+            <p>Welcome back — pick up right where you left off.</p>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="login-username" placeholder="Your username" autocomplete="username" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-field">
+                    <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password" />
+                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('login-password', this)" aria-label="Show password" aria-pressed="false">Show</button>
+                </div>
+            </div>
+            <p id="login-error" style="color:var(--accent4);font-size:13px;margin-bottom:10px;display:none;"></p>
+            <div style="display:flex;gap:10px;margin-top:8px;">
+                <button class="btn btn-secondary" onclick="showScreen('splash')" style="flex:1">← Back</button>
+                <button class="btn btn-primary" id="login-submit-btn" onclick="loginAccount()" style="flex:2">Log In →</button>
+            </div>
+            <p style="margin-top:16px;font-size:13px;color:var(--muted);text-align:center;">
+                No account yet? <a href="#" onclick="showScreen('register');return false;" style="color:var(--accent1);">Create one</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ══════ MAIN ══════ -->
+    <div id="main" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-logo">SKILLQUEST</div>
+            <div class="player-bar">
+                <div class="xp-bar-wrap">
+                    <div class="xp-label"><span id="hud-xp">0</span> XP · Next: <span id="hud-next">100</span></div>
+                    <div class="xp-track"><div class="xp-fill" id="hud-xp-bar" style="width:0%"></div></div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;">
+                    <div class="player-name-tag" id="hud-name">Trainee</div>
+                    <div class="player-track-tag" id="hud-track">PC OPS NC II</div>
+                </div>
+                <div class="level-badge">
+                    <span class="lv-label">LVL</span>
+                    <span class="lv-num" id="hud-level">1</span>
+                </div>
+                <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px;" onclick="confirmLogout()" title="Log out (progress is saved to your account)">⎋ Log Out</button>
+            </div>
+        </div>
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchTab('dashboard',this)">🏠 Dashboard</div>
+            <div class="nav-tab" onclick="switchTab('modules',this)">📋 Modules</div>
+            <div class="nav-tab" onclick="switchTab('analytics',this)">📊 Analytics</div>
+            <div class="nav-tab" onclick="switchTab('badges',this)">🏅 Badges</div>
+            <div class="nav-tab" onclick="switchTab('leaderboard',this)">🏆 Leaderboard</div>
+        </div>
+        <div class="main-content" id="main-content"></div>
+    </div>
+
+    <!-- ══════ TRAINER DASHBOARD ══════ -->
+    <div id="trainer-main" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-logo">SKILLQUEST</div>
+            <div class="player-bar">
+                <div style="display:flex;flex-direction:column;align-items:flex-end;">
+                    <div class="player-name-tag" id="trainer-hud-name">Trainer</div>
+                    <div class="player-track-tag">Trainer View</div>
+                </div>
+                <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px;" onclick="confirmLogout()">⎋ Log Out</button>
+            </div>
+        </div>
+        <div class="main-content" id="trainer-content" style="padding:24px;"></div>
+    </div>
+
+    <!-- ══════ QUIZ SCREEN ══════ -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-top">
+            <div class="quiz-info">
+                <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px;" onclick="exitQuiz()">✕ Exit</button>
+                <div>
+                    <div class="quiz-comp-name" id="q-comp-name">Module Name</div>
+                    <div id="q-track-badge" class="quiz-track-badge"></div>
+                </div>
+            </div>
+            <div class="quiz-progress-row">
+                <div class="q-dots" id="q-dots"></div>
+                <span id="q-counter" style="margin-left:4px;"></span>
+            </div>
+            <div class="timer-ring">
+                <svg width="52" height="52" viewBox="0 0 52 52">
+                    <circle class="timer-bg" cx="26" cy="26" r="22"/>
+                    <circle class="timer-arc" id="timer-arc" cx="26" cy="26" r="22"
+                    stroke-dasharray="138.2" stroke-dashoffset="0"/>
+                </svg>
+                <div class="timer-text" id="timer-text">30</div>
+            </div>
+        </div>
+        <div class="quiz-body" id="quiz-body"></div>
+    </div>
+
+    <!-- ══════ GAME MODULE SCREEN ══════ -->
+    <div id="game-module-screen" class="screen">
+        <div class="quiz-top">
+            <div class="quiz-info">
+                <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px;" onclick="exitGameModule()">✕ Exit</button>
+                <div>
+                    <div class="quiz-comp-name" id="gm-comp-name">Module Name</div>
+                    <div id="gm-track-badge" class="quiz-track-badge"></div>
+                </div>
+            </div>
+            <div class="quiz-progress-row">
+                <span id="gm-progress-text" style="font-size:12px;color:var(--muted);">Level progress will appear here as you play</span>
+            </div>
+        </div>
+        <div class="game-module-frame-wrap">
+            <iframe id="gm-iframe" class="game-module-iframe" title="Interactive module" scrolling="yes"
+            allow="fullscreen"></iframe>
+        </div>
+    </div>
+
+    <!-- ══════ RESULTS SCREEN ══════ -->
+    <div id="results-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-logo">SKILLQUEST</div>
+            <button class="btn btn-secondary" style="padding:8px 18px;" onclick="showMain()">← Back to Dashboard</button>
+        </div>
+        <div class="results-body" id="results-body"></div>
+    </div>
+
+    <!-- Level Up Modal -->
+    <div class="modal-overlay" id="levelup-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('levelup-modal')">✕</button>
+            <div class="modal-icon">🎉</div>
+            <h2>LEVEL UP!</h2>
+            <p id="levelup-msg">You reached Level 2! Keep going — the higher the level, the closer you are to NC readiness.</p>
+            <button class="btn btn-primary" style="width:100%;" onclick="closeModal('levelup-modal')">Continue ▶</button>
+        </div>
+    </div>
+
+    <!-- Badge Modal -->
+    <div class="modal-overlay" id="badge-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('badge-modal')">✕</button>
+            <div class="modal-icon" id="badge-modal-icon">🏅</div>
+            <h2>Badge Earned!</h2>
+            <p id="badge-modal-msg">You earned the First Steps badge!</p>
+            <button class="btn btn-primary" style="width:100%;" onclick="closeModal('badge-modal')">Collect 🎖</button>
+        </div>
+    </div>
+
+    <!-- ══════ LOGOUT CONFIRMATION MODAL ══════ -->
+    <div id="logout-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:36px; max-width:420px; width:100%; text-align:center; position:relative;">
+            <button style="position:absolute; top:16px; right:16px; background:var(--card); border:none; color:var(--muted); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center;" onclick="closeLogoutModal()">✕</button>
+            <div style="font-size:64px; margin-bottom:12px;">🚪</div>
+            <h2 style="font-family:'Rajdhani',sans-serif; font-size:28px; font-weight:700; margin-bottom:8px; color:var(--text);">Log Out?</h2>
+            <p style="color:var(--muted); font-size:14px; margin-bottom:24px; line-height:1.6;">
+                Are you sure you want to log out? Your progress is already saved to your account.
+            </p>
+            <div style="display:flex; gap:12px; justify-content:center;">
+                <button class="btn btn-secondary" style="flex:1; max-width:160px; padding:12px 20px; font-size:16px;" onclick="closeLogoutModal()">No</button>
+                <button class="btn btn-danger" style="flex:1; max-width:160px; padding:12px 20px; font-size:16px;" onclick="doLogout()">Yes, Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════ CERTIFICATE MODAL ══════ -->
+    <div class="modal-overlay" id="cert-modal">
+        <div class="modal" style="max-width:760px;">
+            <button class="modal-close" onclick="closeModal('cert-modal')">✕</button>
+            <h2>🎓 Certificate of Accomplishment</h2>
+            <canvas id="cert-canvas" width="1600" height="1130"></canvas>
+            <div class="confirm-actions" style="margin-top:16px;">
+                <button class="btn btn-secondary" onclick="closeModal('cert-modal')">Close</button>
+                <button class="btn btn-primary" onclick="downloadCertificate()">⬇ Download PNG</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/icons.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>EIM Circuit Master</title>
+    <link rel="stylesheet" href="../css/theme-bg.css">
+    <link rel="stylesheet" href="css/eim-game.css">
+    <link rel="stylesheet" href="../css/icons.css">
+</head>
+<body>
+
+    <div id="app">
+        <!-- ─── DRAG GHOST ─── -->
+        <div id="dragGhost"></div>
+
+        <!-- SCREEN: MAIN MENU -->
+        <div id="screen-main" class="screen active">
+            <div class="title-main">⚡ EIM CIRCUIT MASTER</div>
+            <div class="title-sub">— learn · build · diagnose —</div>
+
+            <div class="menu-grid">
+                <div class="menu-item" data-game="symbol" id="menu-symbol">
+                    <div class="icon">🔍</div>
+                    <div class="info">
+                        <div class="name">Symbol Savvy <span class="badge">Lv.1</span></div>
+                        <div class="desc">Identify electrical symbols</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="wire" id="menu-wire">
+                    <div class="icon">🔧</div>
+                    <div class="info">
+                        <div class="name">Wire Wizard <span class="badge">Lv.1</span></div>
+                        <div class="desc">Build circuits step by step</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="fault" id="menu-fault">
+                    <div class="icon">🛠️</div>
+                    <div class="info">
+                        <div class="name">Fault Finder <span class="badge">Lv.1</span></div>
+                        <div class="desc">Diagnose & repair circuits</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="code" id="menu-code">
+                    <div class="icon">🛡️</div>
+                    <div class="info">
+                        <div class="name">Safety Check <span class="badge">Lv.1</span></div>
+                        <div class="desc">Risk assessment & PPE selection</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+            </div>
+
+            <div class="progress-wrap">
+                <div class="progress-row">
+                    <span class="label">🏆 Symbol Hunter</span>
+                    <span class="value">Level 7 · XP 2450 / 3000</span>
+                </div>
+                <div class="progress-track">
+                    <div class="fill" style="width:81.7%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN: SYMBOL SAVVY -->
+        <div id="screen-symbol" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🔍 Symbol Savvy</span>
+            </div>
+            <div id="symbol-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="symbolLevelGrid"></div>
+                <button class="btn btn-primary" id="symbolStartBtn">START LEVEL</button>
+            </div>
+            <div id="symbol-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="symbolInstrObj">🎯 Match each symbol to its correct name.</div>
+                    <div class="detail" id="symbolInstrDetail">Drag a name from the list and drop it on the matching symbol.</div>
+                    <div class="rule">Drag names from below</div>
+                    <div class="rule">Drop on the correct symbol</div>
+                    <div class="rule">Match all to complete</div>
+                </div>
+                <button class="btn btn-primary" id="symbolPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="symbol-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="symbolGameLevel">Level 1</span>
+                    <span class="stars-display" id="symbolGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="symbolGameTimer">00:00</span>
+                </div>
+                <div class="drop-grid" id="symbolDropGrid"></div>
+                <div class="drag-zone" id="symbolDragZone"><span style="color:#5a6a80;font-size:13px;">Drag names here →</span></div>
+                <button class="btn btn-secondary" id="symbolCheckBtn" style="margin-top:8px;">✅ CHECK</button>
+            </div>
+            <div class="feedback-overlay" id="symbolFeedback">
+                <div class="big-icon" id="symbolFbIcon">🎉</div>
+                <div class="fb-title gold" id="symbolFbTitle">Well Done!</div>
+                <div class="fb-sub" id="symbolFbSub">You identified all symbols correctly!</div>
+                <div class="fb-score" id="symbolFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="symbolFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="symbolFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+            <div id="symbol-progress" style="display:none;margin-top:10px;">
+                <div class="label-sm text-center" style="margin-bottom:4px;">Your Progress</div>
+                <div class="progress-map" id="symbolProgressMap"></div>
+                <button class="btn btn-secondary" id="symbolProgressBack" style="margin-top:8px;">← BACK TO MENU</button>
+            </div>
+        </div>
+
+        <!-- SCREEN: WIRE WIZARD — ENHANCED -->
+        <div id="screen-wire" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🔧 Wire Wizard</span>
+            </div>
+            <div id="wire-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="wireLevelGrid"></div>
+                <button class="btn btn-primary" id="wireStartBtn">START LEVEL</button>
+            </div>
+            <div id="wire-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="wireInstrObj">🔌 Level 1: Simple Series</div>
+                    <div class="detail" id="wireInstrDetail">Connect the components in one continuous loop.</div>
+                    <div class="comp-list" id="wireCompList"></div>
+                    <div class="rule">Click a terminal</div>
+                    <div class="rule">Click another terminal to connect</div>
+                    <div class="rule">Click the Submit button to test</div>
+                    <div class="rule">Use CLUE for help (once per level)</div>
+                </div>
+                <button class="btn btn-primary" id="wirePlayBtn">▶ PLAY</button>
+            </div>
+            <div id="wire-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="wireGameLevel">Level 1</span>
+                    <span class="stars-display" id="wireGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="wireGameTimer">00:00</span>
+                </div>
+                <!-- ENHANCED CANVAS AREA -->
+                <div class="circuit-area" id="circuitArea">
+                    <div class="instruction" id="wireInstruction">🔌 Connect correctly to <span>turn on</span> the light.</div>
+                    <canvas id="wireCanvas" width="1000" height="380"></canvas>
+                    <div id="wireFeedback" class="wire-feedback hidden"></div>
+                </div>
+                <div class="controls" style="display:flex; gap:12px; margin-top:8px;">
+                    <button class="btn btn-secondary" id="wireResetBtn" style="flex:1; padding:12px 16px;">⟳ Reset</button>
+                    <button class="btn btn-clue" id="wireClueBtn" style="flex:0.5; padding:12px 16px;">💡 CLUE</button>
+                    <button class="btn btn-primary" id="wireSubmitBtn" style="flex:1; padding:12px 16px;">✓ Submit</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="wireFeedbackOverlay">
+                <div class="big-icon" id="wireFbIcon">🎉</div>
+                <div class="fb-title gold" id="wireFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="wireFbSub">Great job!</div>
+                <div class="fb-score" id="wireFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="wireFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="wireFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN: FAULT FINDER -->
+        <div id="screen-fault" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🛠️ Fault Finder</span>
+            </div>
+            <div id="fault-select">
+                <div class="subheading">Diagnose broken circuits</div>
+                <div class="level-grid" id="faultLevelGrid"></div>
+                <button class="btn btn-primary" id="faultStartBtn">START LEVEL</button>
+            </div>
+            <div id="fault-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="faultInstrObj">🔎 Find the fault</div>
+                    <div class="detail" id="faultInstrDetail">Tap INSPECT to reveal the fault, then select the correct repair action from the choices. Finally, tap REPAIR to fix it.</div>
+                    <div class="rule">Tap <strong>INSPECT</strong> to reveal the fault</div>
+                    <div class="rule">Choose the correct repair action from four options</div>
+                    <div class="rule">Tap <strong>REPAIR</strong> to apply the fix</div>
+                </div>
+                <button class="btn btn-primary" id="faultPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="fault-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="faultGameLevel">Level 1</span>
+                    <span class="stars-display" id="faultGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="faultGameTimer">00:00</span>
+                </div>
+                <div class="fault-level-container">
+                    <div class="fault-header">
+                        <div class="fault-level-name" id="faultLevelName">Open Circuit</div>
+                        <div class="fault-desc" id="faultLevelDesc">Find the broken wire and fix the open circuit.</div>
+                    </div>
+                    <div class="fault-problem-box" id="faultProblemBox">❓ What's wrong? Tap INSPECT to find out.</div>
+                    <div class="fault-circuit-box" id="faultCircuitBox">
+                        <div class="circuit-diagram" id="faultCircuitDisplay">
+                            <span class="component">[🔋]</span>
+                            <span class="component">──</span>
+                            <span class="component">[💡]</span>
+                            <span class="component">──</span>
+                            <span class="fault-highlight" id="faultMarker">✖</span>
+                            <span class="component">──</span>
+                            <span class="component">[🔌]</span>
+                        </div>
+                    </div>
+                    <div class="fault-status-bar fault-active" id="faultStatusBar">
+                        <span class="status-icon">⚠️</span>
+                        <span id="faultStatusText">Fault: Open circuit detected</span>
+                    </div>
+                    <div class="fault-choices" id="faultChoices">
+                        <div class="choices-prompt">Select the correct repair action:</div>
+                        <div class="choices-container" id="faultOptionsContainer"></div>
+                        <div class="choice-feedback" id="faultChoiceFeedback"></div>
+                    </div>
+                    <div class="fault-actions">
+                        <button class="btn btn-inspect" id="faultInspectBtn">🔍 INSPECT</button>
+                        <button class="btn btn-repair" id="faultRepairBtn" disabled>🔧 REPAIR</button>
+                    </div>
+                    <div class="fault-level-progress" id="faultProgressDots"></div>
+                    <button class="btn btn-secondary" id="faultResetBtn" style="display:none;">↻ RESET</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="faultFeedback">
+                <div class="big-icon" id="faultFbIcon">✅</div>
+                <div class="fb-title green" id="faultFbTitle">Fixed!</div>
+                <div class="fb-sub" id="faultFbSub">You repaired the circuit successfully!</div>
+                <div class="fb-score" id="faultFbScore">
+                    <div class="row"><span class="label">Hearts Left</span><span class="hearts-row" id="fbHearts">♥♥♥♥♥</span></div>
+                    <div class="row"><span class="label">Time Bonus</span><span id="fbTimeBonus">+45 XP</span></div>
+                    <div class="row"><span class="label">Accuracy Bonus</span><span id="fbAccuracyBonus">+30 XP</span></div>
+                    <div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;" id="fbTotalXP">75 XP</span></div>
+                </div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="faultFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="faultFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN: SAFETY CHECK -->
+        <div id="screen-code" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🛡️ Safety Check</span>
+            </div>
+            <div id="code-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="codeLevelGrid"></div>
+                <button class="btn btn-primary" id="codeStartBtn">START LEVEL</button>
+            </div>
+            <div id="code-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="codeInstrObj">🛡️ Safety Knowledge</div>
+                    <div class="detail" id="codeInstrDetail">Review the Risk Assessment, then select the correct PPE items. Tap CHECK to submit your answer.</div>
+                    <div class="rule">Read the Hazard and Risk Rating</div>
+                    <div class="rule">Tap PPE items to select/deselect them</div>
+                    <div class="rule">Select all required PPE items</div>
+                    <div class="rule">Tap CHECK to check your selection</div>
+                </div>
+                <button class="btn btn-primary" id="codePlayBtn">▶ START LEVEL</button>
+            </div>
+            <div id="code-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="codeGameLevel">Level 1</span>
+                    <span class="stars-display" id="codeGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="codeGameTimer">00:00</span>
+                </div>
+
+                <div class="safety-level-container">
+                    <div class="safety-header">
+                        <div class="safety-level-name" id="safetyLevelName">Basic Safety</div>
+                        <div class="safety-level-stars" id="safetyLevelStars">♥♥♥♥♥</div>
+                    </div>
+
+                    <div class="safety-risk-box" id="safetyRiskBox">
+                        <div class="risk-label">⚠️ RISK ASSESSMENT</div>
+                        <div class="risk-hazard" id="safetyHazard">Hazard: Broken wire / exposed end</div>
+                        <div class="risk-row">
+                            <span class="risk-label-sm">Risk Rating</span>
+                            <span class="risk-value medium" id="safetyRiskRating">Medium</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="risk-label-sm">Control</span>
+                            <span class="risk-value" id="safetyControl">Unconnected power before repair</span>
+                        </div>
+                    </div>
+
+                    <div class="safety-ppe-section" id="safetyPPESection">
+                        <div class="ppe-label">🛡️ PPE CHECK</div>
+                        <div class="ppe-grid" id="safetyPPEGrid"></div>
+                    </div>
+
+                    <div class="safety-feedback-text info" id="safetyFeedback">Select the required PPE items for this hazard.</div>
+
+                    <button class="btn btn-primary" id="safetySubmitBtn" style="margin-top:6px;">✅ CHECK</button>
+                </div>
+            </div>
+
+            <div class="feedback-overlay" id="codeFeedback">
+                <div class="big-icon" id="codeFbIcon">🎉</div>
+                <div class="fb-title gold" id="codeFbTitle">Level Complete!</div>
+                <div class="fb-sub" id="codeFbSub">Great safety knowledge!</div>
+                <div class="fb-score" id="codeFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#f5a623;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="codeFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="codeFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../js/icons.js"></script>
+    <script src="js/eim-game.js"></script>
+</body>
+</html>

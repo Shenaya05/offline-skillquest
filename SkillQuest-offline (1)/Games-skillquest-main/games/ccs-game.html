@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>AGENT PRO – CONTACT CENTER SERVICING NC ASSESSMENT</title>
+    <link rel="stylesheet" href="../css/theme-bg.css">
+    <link rel="stylesheet" href="css/ccs-game.css">
+    <link rel="stylesheet" href="../css/icons.css">
+</head>
+<body>
+
+    <div id="app">
+        <div id="dragGhost" class="drag-ghost" style="display:none;"></div>
+
+        <!-- MAIN MENU -->
+        <div id="screen-main" class="screen active">
+            <div class="title-main">🎯 AGENT PRO</div>
+            <div class="title-sub">— CONTACT CENTER SERVICING NC —</div>
+            <div class="menu-grid">
+                <div class="menu-item" data-game="script" id="menu-script">
+                    <div class="icon">📋</div>
+                    <div class="info"><div class="name">Script Savvy <span class="badge">Lv.1</span></div><div class="desc">Call flow &amp; standard phrases</div></div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="storm" id="menu-storm">
+                    <div class="icon">🌊</div>
+                    <div class="info"><div class="name">Calm the Storm <span class="badge">Lv.1</span></div><div class="desc">De‑escalation &amp; empathy</div></div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="quality" id="menu-quality">
+                    <div class="icon">⭐</div>
+                    <div class="info"><div class="name">Quality Quest <span class="badge">Lv.1</span></div><div class="desc">QA, compliance &amp; metrics</div></div>
+                    <div class="arrow">›</div>
+                </div>
+                <div class="menu-item" data-game="live" id="menu-live">
+                    <div class="icon">🎙️</div>
+                    <div class="info"><div class="name">The Live Call <span class="badge">Lv.1</span></div><div class="desc">Full Simulation Assessment</div></div>
+                    <div class="arrow">›</div>
+                </div>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-row">
+                    <span class="label">🏆 Overall Progress</span>
+                    <span class="value">Level 3 · XP 1800 / 2500</span>
+                </div>
+                <div class="progress-track"><div class="fill" style="width:72%;"></div></div>
+            </div>
+        </div>
+
+        <!-- SCRIPT SAVVY -->
+        <div id="screen-script" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">📋 Script Savvy</span>
+            </div>
+            <div id="script-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="scriptLevelGrid"></div>
+                <button class="btn btn-primary" id="scriptStartBtn">START LEVEL</button>
+            </div>
+            <div id="script-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="scriptInstrObj">📋 Call Flow Sequence</div>
+                    <div class="detail" id="scriptInstrDetail">Arrange the call flow steps in the correct order. 4 problems per level.</div>
+                    <div class="rule">Drag phrases from below</div>
+                    <div class="rule">Place them in the correct sequence</div>
+                    <div class="rule">Tap CHECK to verify</div>
+                </div>
+                <button class="btn btn-primary" id="scriptPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="script-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="scriptGameLevel">Level 1</span>
+                    <span class="stars-display" id="scriptGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="scriptGameTimer">00:00</span>
+                </div>
+                <div class="flow-board" id="scriptBoard"></div>
+                <div class="drag-zone" id="scriptDragZone"><span style="color:#5a6a80;font-size:13px;">⬇ Drag phrases here ⬇</span></div>
+                <div id="scriptHintText" style="display:none;margin-top:8px;padding:10px 12px;background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.3);border-radius:8px;font-size:13px;color:#ffd35c;"></div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button class="btn btn-secondary" id="scriptHintBtn" style="flex:1;">💡 HINT</button>
+                    <button class="btn btn-primary" id="scriptCheckBtn" style="flex:1;">✅ CHECK</button>
+                </div>
+            </div>
+            <div class="feedback-overlay" id="scriptFeedback">
+                <div class="big-icon" id="scriptFbIcon">🎉</div>
+                <div class="fb-title gold" id="scriptFbTitle">Well Done!</div>
+                <div class="fb-sub" id="scriptFbSub">You nailed the call flow!</div>
+                <div class="fb-score" id="scriptFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#00b4ff;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="scriptFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="scriptFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CALM THE STORM -->
+        <div id="screen-storm" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🌊 Calm the Storm</span>
+            </div>
+            <div id="storm-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="stormLevelGrid"></div>
+                <button class="btn btn-primary" id="stormStartBtn">START LEVEL</button>
+            </div>
+            <div id="storm-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="stormInstrObj">🌊 De‑escalation Scenario</div>
+                    <div class="detail" id="stormInstrDetail">Read the scenario and choose the best response. 4 problems per level.</div>
+                    <div class="rule">Read the customer situation</div>
+                    <div class="rule">Select the most empathetic response</div>
+                    <div class="rule">Submit to see if you calmed the storm</div>
+                </div>
+                <button class="btn btn-primary" id="stormPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="storm-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="stormGameLevel">Level 1</span>
+                    <span class="stars-display" id="stormGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="stormGameTimer">00:00</span>
+                </div>
+                <div class="scenario-box" id="stormScenarioBox">
+                    <div class="scenario-label">📞 CUSTOMER SCENARIO</div>
+                    <div class="scenario-text" id="stormScenarioText">Customer is frustrated about a billing error that has been ongoing for 3 weeks.</div>
+                    <div class="scenario-options" id="stormOptions"></div>
+                    <div class="scenario-feedback info" id="stormFeedback">Choose the best response to de‑escalate.</div>
+                </div>
+                <button class="btn btn-primary" id="stormSubmitBtn" style="margin-top:6px;">✅ SUBMIT</button>
+            </div>
+            <div class="feedback-overlay" id="stormFeedbackOverlay">
+                <div class="big-icon" id="stormFbIcon">🎉</div>
+                <div class="fb-title gold" id="stormFbTitle">Storm Calmed!</div>
+                <div class="fb-sub" id="stormFbSub">Great empathy and de‑escalation skills!</div>
+                <div class="fb-score" id="stormFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#00b4ff;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="stormFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="stormFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUALITY QUEST -->
+        <div id="screen-quality" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">⭐ Quality Quest</span>
+            </div>
+            <div id="quality-select">
+                <div class="subheading">Select Level</div>
+                <div class="level-grid" id="qualityLevelGrid"></div>
+                <button class="btn btn-primary" id="qualityStartBtn">START LEVEL</button>
+            </div>
+            <div id="quality-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="qualityInstrObj">⭐ QA &amp; Compliance</div>
+                    <div class="detail" id="qualityInstrDetail">Answer the quality assurance questions correctly. 4 problems per level.</div>
+                    <div class="rule">Read each QA scenario</div>
+                    <div class="rule">Select the correct answer</div>
+                    <div class="rule">Complete all to pass</div>
+                </div>
+                <button class="btn btn-primary" id="qualityPlayBtn">▶ PLAY</button>
+            </div>
+            <div id="quality-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="qualityGameLevel">Level 1</span>
+                    <span class="stars-display" id="qualityGameStars">♥♥♥♥♥</span>
+                    <span class="timer" id="qualityGameTimer">00:00</span>
+                </div>
+                <div class="qa-question" id="qualityQuestionBox">
+                    <div class="q-text" id="qualityQuestion">What is the first step when handling a customer complaint?</div>
+                    <div class="q-options" id="qualityOptions"></div>
+                </div>
+                <button class="btn btn-primary" id="qualitySubmitBtn" style="margin-top:8px;">✅ SUBMIT</button>
+            </div>
+            <div class="feedback-overlay" id="qualityFeedback">
+                <div class="big-icon" id="qualityFbIcon">🎉</div>
+                <div class="fb-title gold" id="qualityFbTitle">QA Passed!</div>
+                <div class="fb-sub" id="qualityFbSub">Excellent compliance knowledge!</div>
+                <div class="fb-score" id="qualityFbScore"><div class="row"><span class="label">TOTAL XP</span><span class="text-glow" style="color:#00b4ff;">75 XP</span></div></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:280px;">
+                    <button class="btn btn-secondary" id="qualityFbReplay">↻ REPLAY</button>
+                    <button class="btn btn-primary" id="qualityFbNext">➜ NEXT LEVEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- THE LIVE CALL -->
+        <div id="screen-live" class="screen">
+            <div class="back-row">
+                <button class="back-btn" data-back="main">‹</button>
+                <span class="heading" style="font-size:17px;">🎙️ The Live Call</span>
+            </div>
+            <div id="live-select">
+                <div class="subheading">Choose a Call Scenario</div>
+                <div class="menu-grid" id="liveCallGrid" style="margin:10px 0 16px;"></div>
+                <button class="btn btn-primary" id="liveStartBtn">START CALL</button>
+            </div>
+            <div id="live-instructions" style="display:none;">
+                <div class="instructions-box">
+                    <div class="obj" id="liveInstrObj">🎙️ Full Simulation Assessment</div>
+                    <div class="detail" id="liveInstrDetail">Listen to the customer and choose the best response at each step. You'll be scored across the whole call.</div>
+                    <div class="rule">Tap 🔊 to hear the customer's voice</div>
+                    <div class="rule">Pick the best response at each turn</div>
+                    <div class="rule">Get a full assessment at the end</div>
+                </div>
+                <button class="btn btn-primary" id="livePlayBtn">▶ START</button>
+            </div>
+            <div id="live-game" style="display:none;">
+                <div class="game-header">
+                    <span class="level-tag" id="liveGameLevel">Call 1</span>
+                    <span class="stars-display" id="liveGameHearts">♥♥♥♥♥</span>
+                    <span class="stars-display" id="liveGameTurn">Turn 1/5</span>
+                    <span class="timer" id="liveGameTimer">00:00</span>
+                </div>
+                <div class="scenario-box" id="liveScenarioBox">
+                    <div class="scenario-label" id="liveSpeakerLabel">📞 CUSTOMER</div>
+                    <div class="scenario-text" id="liveScenarioText">Hello?</div>
+                    <button class="btn btn-secondary" id="liveReplayVoiceBtn" style="margin-top:10px;">🔊 REPLAY VOICE</button>
+                    <div class="scenario-options" id="liveOptions" style="margin-top:12px;"></div>
+                    <div class="scenario-feedback info" id="liveFeedback">Choose your response.</div>
+                </div>
+                <button class="btn btn-primary" id="liveSubmitBtn" style="margin-top:6px;">✅ RESPOND</button>
+            </div>
+            <div class="feedback-overlay" id="liveFeedbackOverlay">
+                <div class="big-icon" id="liveFbIcon">🎉</div>
+                <div class="fb-title gold" id="liveFbTitle">Call Complete!</div>
+                <div class="fb-sub" id="liveFbSub">Here's your full assessment</div>
+                <div class="fb-score" id="liveFbScore" style="max-width:320px;"></div>
+                <div style="display:flex;gap:10px;width:100%;max-width:320px;">
+                    <button class="btn btn-secondary" id="liveFbReplay">↻ RETRY</button>
+                    <button class="btn btn-primary" id="liveFbNext">➜ MENU</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/icons.js"></script>
+    <script src="js/ccs-game.js"></script>
+</body>
+</html>
